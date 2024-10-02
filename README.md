@@ -1,34 +1,78 @@
-# Document Summarization with Gemini from Vertex AI
-This Accelerator for Machine Learning Projects ("AMP") allows users to summarize documents and text using Google's Gemini models from the Vertex AI Model Garden. It provides two summarization modes: text-based and document-based with document summarization supported through LlamaIndex as the vector store.
+# Image Analysis with Anthropic's Claude LLM
+This Accelerator for Machine Learning Projects ("AMP") allows users to perform transcription and information extraction on images using Anthropic Claude models. The app covers a variety of use cases, including text extraction, complex document question-answering, and converting unstructured content into structured formats like JSON. The advantage of using Claude 3 over traditional OCR systems is that you can specify exactly what you want to transcribe due to Claude 3's advanced reasoning capabilities.
 
-![](/assets/readme-header.png)
 
-## Architecture and Overview
+![](/assets/anthropic-logo.png)
 
-### 2 Modes of Summarization
-This AMP supports two modes of document summarization: text-based summarization and document-based summarization. For document summarization, upload and remove documents in the 'Manage Vector Store' tab or through the CML Job 'Load Documents in docs folder to LlamaIndex vector store'. As is documented in the Supported Gemini Models below, there are several Gemini models to choose from depending on the desired output. Max Output Tokens and Temperature may be adjusted for lengthier responses and level of randomness in response, respectively.
 
-#### Text-based Summarization
-![](/assets/screenshot-summarize-from-text-input.png)
+## Use Cases Solved With Anthropic Vision Models
 
-#### Document-based Summarization
-![](/assets/screenshot-summarize-from-doc-library.png)
+1. **Transcribing Typed Text:** Extracts typed or printed text from images into editable digital text, suitable for scanned documents or printouts.
 
-![](/assets/screenshot-manage-vector-store.png)
+2. **Transcribing Handwritten Text:** Converts handwritten notes into machine-readable text, aiding in digitizing personal notes or historical documents.
 
-### Supported Gemini Models
-Several Gemini models are tested and supported and more may be added by adjusting the below parameter in the `3_application/app.py` file:
+3. **Transcribing Forms:** Extracts data from structured forms while preserving their organization, useful for automating data entry.
+
+4. **Complicated Document QA:** Answers questions based on the content of complex documents, suitable for contexts requiring deeper understanding.
+
+5. **Unstructured Information → JSON:** Converts unstructured document content into a structured JSON format, ideal for turning reports or diagrams into data.
+
+6. **User Defined Prompts:** Provides flexibility for custom prompts to process images, catering to advanced or unique use cases.
+
+
+## Choose Your Claude: A Model for Every Task
+
+Several Claude models are tested and supported:
 ```
-ALLOWED_MODELS = [
-    "models/gemini-1.0-pro-latest",
-    "models/gemini-1.0-pro",
-    "models/gemini-pro",
-    "models/gemini-1.0-pro-001",
-    "models/gemini-1.5-pro-001",
-    "models/gemini-1.5-pro-latest"
-]
+claude-3-5-sonnet-20240620
+claude-3-opus-20240229
+claude-3-sonnet-20240229
+claude-3-haiku-20240307
 ```
-![](/assets/screenshot-multiple-models.png)
+![](/assets/screenshots/claude-models.png)
+
+**Haiku:** Anthropic's fastest model that can execute lightweight actions, with industry-leading speed. Ideal for quick tasks where time is of the essence.
+
+**Sonnet:** The best combination of performance and speed for efficient, high-throughput tasks. Strikes a balance between speed and power, making it suitable for most general-purpose tasks.
+
+**Opus:** Anthropic's highest-performing model, capable of handling complex analysis, longer tasks with many steps, and higher-order math and coding tasks. Best for situations where accuracy and depth are prioritized over speed.
+
+## Using the Application
+
+### 1. Transcribing Typed Text
+The app can easily extract clean and accurate text from typed or printed images, such as scanned PDFs or printouts, allowing users to quickly digitize documents.
+
+![](/assets/screenshots/transcribing-typed-text.png)
+
+### 2. Transcribing Handwritten Text
+With powerful recognition capabilities, the app can process handwritten notes from images, making it possible to convert personal writings into editable, searchable digital formats.
+
+![](/assets/screenshots/transcribing-handwritten-text.png)
+
+### 3. Transcibing Forms
+The app preserves the structure and layout of forms while extracting content, ensuring that complex tables, questionnaires, and other structured documents are accurately digitized for data processing.
+
+![](/assets/screenshots/transcribing-forms.png)
+
+### 4. Complicated Document QA
+Users can ask specific questions about the content of a complex document, and the app leverages the Claude model's capabilities to understand and extract context-based answers from the image.
+
+![](/assets/screenshots/complicated-doc-qa.png)
+
+### 5. Unstructured Information to JSONs
+The app provides the functionality to convert unstructured or free-form content from images into structured JSON data, enabling easier integration with other systems or databases.
+
+![](/assets/screenshots/unstructured-info-to-json.png)
+
+### 6. User Defined Prompts
+This feature allows users to input their own custom prompts for Claude to process the image in any way they need, offering advanced flexibility for various unique use cases not covered by predefined options.
+
+![](/assets/screenshots/user-defined.png)
+
+### 7. Upload Photos
+Users can easily upload images for processing, manage their image library, and view or delete existing images, enabling efficient preparation for all use cases.
+
+![](/assets/screenshots/upload-images.png)
 
 
 ## Deployment
@@ -38,35 +82,27 @@ There are two ways to launch this prototype on CML:
 
 1. **From Prototype Catalog** - Navigate to the Prototype Catalog on a CML workspace, select the "Document Summarization with Gemini from Vertex AI" tile, click "Launch as Project", click "Configure Project".
 
-2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/cloudera/CML_AMP_Summarization_with_Vertex_AI_Gemini), click "Create Project", click "Configure Project".
+2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/cloudera/CML_AMP_Image-Analysis-with-Anthropic-Claude), click "Create Project", click "Configure Project".
 
 ### AMP Deployment
-In both cases, you will need to specify the `GOOGLE_API_KEY` *(steps in next section on how to create this)* which enables the connection between Google's Vertex AI API and the Application in CML.
+In both cases, you will need to specify the `ANTHROPIC_API_KEY` *(steps in next section on how to create this)* which enables the connection between Anthropic's API and the Application in CML.
 
-![](/assets/screenshot-setup-amp.png)
+![](/assets/screenshots/amp-setup.png)
 
-![](/assets/screenshot-amp-creation-script.png)
+![](/assets/screenshots/amp-build-script.png)
 
 ## Requirements
 
-### Setup API Key with Access to Gemini
+### Setup API Key with Access to Anthropic
 
-#### 1. Enable Vertex AI API
-If you have not already, navigate to the [Vertex AI Marketplace](https://console.cloud.google.com/marketplace/product/google/aiplatform.googleapis.com) and enable the Vertex AI Platform API from your Marketplace. Once complete, your entry should show like below.
+Navigate to https://console.anthropic.com/ and sign up for an account.
 
-![](/assets/enable-vertex-ai-marketplace.png)
+![](/assets/screenshots/anthropic-setup-part1.png)
 
-#### 2. Generate API Key
-From the marketplace entry above, click "Manage" and navigate to "Credentials". Here you will click "Create Credentials" and save the API key value which appears (we will use this as an environment variable when deploying the AMP). 
+![](/assets/screenshots/anthropic-setup-part2.png)
 
-![](/assets/select-credentials.png)
+![](/assets/screenshots/anthropic-setup-part3.png)
 
-![](/assets/select-credentials-dropdown.png)
-
-![](/assets/create-api-key.png)
-
-#### 3. Enable Gemini Model
-Gemini will need to be enabled for the Project space you created the API key in above. If this has not been done already, you should do this for the project the API key resides in. The UI will also share an error message with where to enable the model if required.
 
 #### Recommended Runtime
 JupyterLab - Python 3.11 - Standard - 2024.05
@@ -74,7 +110,6 @@ JupyterLab - Python 3.11 - Standard - 2024.05
 #### Resource Requirements
 This AMP creates the following workloads with resource requirements:
 - CML Session: `2 CPU, 8GB MEM`
-- CML Jobs: `2 CPU, 8GB MEM`
 - CML Application: `2 CPU, 8GB MEM`
 
 #### External Resources
@@ -83,26 +118,15 @@ This AMP requires pip packages and models from huggingface. Depending on your CM
 - pypi.org
 - pythonhosted.org
 - huggingface.co
-Additionally, it will require access to Google's Vertex AI API. Please ensure the endpoint you leverage for Gemini is whitelisted as well.
 
-## Technologies Used
-#### Models and Utilities
-- [Gemini](https://blog.google/technology/ai/google-gemini-ai/)
-     - LLM Model from Google's Vertex AI Model Garden 
-- [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-     - Vector Embeddings Generation Model
-- [Hugging Face transformers library](https://pypi.org/project/transformers/)
-#### Vector Store
-- [Llama Index](https://docs.llamaindex.ai/en/stable/module_guides/indexing/vector_store_index/)
-#### Chat Frontend
-- [Streamlit](https://github.com/streamlit)
+Additionally, it will require access to Anthropic's Claude API. Please ensure access to Claude is whitelisted as well.
 
 ## Deploying on CML
 There are two ways to launch this prototype on CML:
 
 1. **From Prototype Catalog** - Navigate to the Prototype Catalog on a CML workspace, select the "Intelligent QA Chatbot with NiFi, Pinecone, and Llama2" tile, click "Launch as Project", click "Configure Project"
 
-2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/cloudera/CML_AMP_Summarization_with_Vertex_AI_Gemini), click "Create Project", click "Configure Project"
+2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/cloudera/CML_AMP_Image-Analysis-with-Anthropic-Claude), click "Create Project", click "Configure Project"
 
 
 ## The Fine Print
