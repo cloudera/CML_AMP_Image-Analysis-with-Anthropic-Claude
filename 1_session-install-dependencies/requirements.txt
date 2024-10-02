@@ -1,0 +1,9 @@
+pydub==0.25.1
+streamlit==1.38.0
+tornado==6.3.3
+PyPDF2==3.0.1
+python-docx==1.1.2
+google-cloud-aiplatform==1.69.0
+llama_index==0.11.14
+google.generativeai==0.8.2
+llama-index-embeddings-huggingface==0.3.1
