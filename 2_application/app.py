@@ -26,26 +26,17 @@ def get_image_files(directory, extensions=("png", "jpg", "jpeg", "gif", "webp"))
 
 # Display the default image with an option to enlarge and shrink
 def display_image_with_enlarge_option(image_path, caption="Image"):
-    # Toggle state for enlarging/shrinking the image
     key_prefix = caption.replace(" ", "_") + "_" + os.path.basename(image_path)
     
-    # Initialize session state for image enlargement if not already present
     if f"enlarged_{key_prefix}" not in st.session_state:
         st.session_state[f"enlarged_{key_prefix}"] = False
 
-    # Set image dimensions based on toggle state
-    width = 200  # Small size
-    enlarged_width = width * 3  # Tripled size
+    if st.button("Toggle Image Size", key=f"toggle_{key_prefix}"):
+        st.session_state[f"enlarged_{key_prefix}"] = not st.session_state[f"enlarged_{key_prefix}"]
 
-    # Display button to toggle enlarge/shrink
-    if st.session_state[f"enlarged_{key_prefix}"]:
-        st.image(image_path, caption=f"Enlarged {caption}", width=enlarged_width)
-        if st.button("Shrink Image", key=f"shrink_{key_prefix}"):
-            st.session_state[f"enlarged_{key_prefix}"] = False
-    else:
-        st.image(image_path, caption=f"Small {caption}", width=width)
-        if st.button("Enlarge Image", key=f"enlarge_{key_prefix}"):
-            st.session_state[f"enlarged_{key_prefix}"] = True
+    width = 200 if not st.session_state[f"enlarged_{key_prefix}"] else 600
+    st.image(image_path, caption=f"{'Enlarged' if st.session_state[f'enlarged_{key_prefix}'] else 'Small'} {caption}", width=width)
+
 
 # Function to send a prompt to the Claude model
 def send_claude_request(image_path, instruction, model):
