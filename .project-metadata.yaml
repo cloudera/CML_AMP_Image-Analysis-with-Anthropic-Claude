@@ -12,7 +12,7 @@ environment_variables:
     required: true
 
 runtimes:
-  - editor: JupyterLab
+  - editor: PBJ Workbench
     kernel: Python 3.11 
     edition: Standard 
 
